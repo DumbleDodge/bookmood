@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmood - Recomendaciones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .results {
+      margin-top: 20px;
+    }
+    .book {
+      background: #e6e6e6;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>¿Te gustaron dos libros?</h1>
+    <p>Decinos cuáles y te recomendamos qué leer después.</p>
+    <input type="text" id="book1" placeholder="Primer libro">
+    <input type="text" id="book2" placeholder="Segundo libro">
+    <button onclick="getRecommendations()">Buscar recomendaciones</button>
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    const data = {
+      "Proyecto Hail Mary|La vieja guardia": [
+        "Amanecer Rojo",
+        "El marciano",
+        "Cánticos de la lejana Tierra"
+      ],
+      "Mundo Anillo|Cita con Rama": [
+        "Tau Cero",
+        "El libro del día del juicio final",
+        "Las fuentes del paraíso"
+      ],
+      "Amanecer Rojo|El problema de los tres cuerpos": [
+        "Dune",
+        "Hyperion",
+        "Snow Crash"
+      ]
+    };
+
+    function getRecommendations() {
+      const b1 = document.getElementById('book1').value.trim();
+      const b2 = document.getElementById('book2').value.trim();
+      const combo = `${b1}|${b2}`;
+      const reverseCombo = `${b2}|${b1}`;
+
+      const resultDiv = document.getElementById('results');
+      resultDiv.innerHTML = '';
+
+      if (data[combo] || data[reverseCombo]) {
+        const recs = data[combo] || data[reverseCombo];
+        recs.forEach(title => {
+          const bookEl = document.createElement('div');
+          bookEl.className = 'book';
+          bookEl.textContent = title;
+          resultDiv.appendChild(bookEl);
+        });
+      } else {
+        resultDiv.innerHTML = '<p>No tenemos recomendaciones para esa combinación todavía.</p>';
+      }
+    }
+  </script>
+</body>
+</html>
