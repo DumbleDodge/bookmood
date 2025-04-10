@@ -1,226 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bookmood - Recomendaciones</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookMood</title>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #4c8bf5, #a0c4ff); /* Fondo azul con gradiente */
       margin: 0;
-      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4c8bf5, #a0c4ff);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
     }
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-    }
-    h1 {
-      margin-bottom: 10px;
-      font-size: 28px;
-      color: #2c3e50;
-    }
-    p {
-      color: #555;
-      margin-bottom: 30px;
-    }
-    input {
-      width: 100%;
-      padding: 12px 16px;
-      margin: 10px 0;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      transition: 0.3s ease;
-    }
-    input:focus {
-      border-color: #00acc1;
-      outline: none;
-    }
-    button {
-      margin-top: 10px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #00acc1;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    button:hover {
-      background-color: #008b9a;
-    }
-    .results {
-      margin-top: 30px;
-    }
-    .book {
-      background: #f0f9fa;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      font-weight: 500;
-      color: #2c3e50;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .book img {
-      width: 50px;
-      height: 75px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-    /* Estilo del logo en la parte superior */
+
     .header-logo {
-      display: flex;
-      justify-content: center;
       margin-top: 30px;
-      margin-bottom: 20px;
     }
+
     .header-logo img {
       width: 200px;
       height: auto;
     }
-    /* Estilo para las portadas de los libros */
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-top: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+    }
+
     .covers {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       margin-bottom: 20px;
+      gap: 20px;
     }
+
     .cover {
-      width: 100px;
-      height: 150px;
+      width: 120px;
+      height: 180px;
       background-color: #e0e0e0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      border-radius: 10px;
       position: relative;
-      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
+
+    .cover span {
+      font-size: 36px;
+      color: #555;
+      font-weight: bold;
+    }
+
     .cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: none;
     }
-    .cover span {
-      position: absolute;
-      color: #555;
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .cover span:hover {
-      cursor: pointer;
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <!-- Cabecera con logo -->
   <div class="header-logo">
-    <img src="A_logo_for_'BookMood'_is_set_against_a_softly_text.png" alt="BookMood Logo">
+    <img src="A_logo_for_'BookMood'_is_set_against_a_softly_text.png" alt="BookMood Logo" />
   </div>
 
   <div class="container">
-    <h1>¿Te gustaron dos libros?</h1>
-    <p>Decinos cuáles y te recomendamos qué leer después.</p>
+    <h2>¿Qué libros te gustaron?</h2>
 
-    <!-- Portadas de libros con una interrogación al principio -->
     <div class="covers">
       <div class="cover" id="cover1">
-        <span id="question1">?</span>
-        <img id="image1" style="display: none;" />
+        <span id="q1">?</span>
+        <img id="img1" />
       </div>
       <div class="cover" id="cover2">
-        <span id="question2">?</span>
-        <img id="image2" style="display: none;" />
+        <span id="q2">?</span>
+        <img id="img2" />
       </div>
     </div>
 
-    <!-- Campos de texto para introducir los títulos de los libros -->
-    <input type="text" id="book1" placeholder="Primer libro" oninput="updateCover(1)">
-    <input type="text" id="book2" placeholder="Segundo libro" oninput="updateCover(2)">
-
-    <button onclick="getRecommendations()">Buscar recomendaciones</button>
-    <div class="results" id="results"></div>
+    <input type="text" id="input1" placeholder="Primer libro" oninput="loadCover(1)" />
+    <input type="text" id="input2" placeholder="Segundo libro" oninput="loadCover(2)" />
   </div>
 
   <script>
-    const data = {
-      "Proyecto Hail Mary|La vieja guardia": [
-        { title: "Amanecer Rojo", cover: "https://covers.openlibrary.org/b/isbn/9788499187905-M.jpg" },
-        { title: "El marciano", cover: "https://covers.openlibrary.org/b/isbn/9780804139021-M.jpg" },
-        { title: "Cánticos de la lejana Tierra", cover: "https://covers.openlibrary.org/b/isbn/9788497599243-M.jpg" }
-      ],
-      "Mundo Anillo|Cita con Rama": [
-        { title: "Tau Cero", cover: "https://covers.openlibrary.org/b/isbn/9788498006290-M.jpg" },
-        { title: "El libro del día del juicio final", cover: "https://covers.openlibrary.org/b/isbn/9788498007884-M.jpg" },
-        { title: "Las fuentes del paraíso", cover: "https://covers.openlibrary.org/b/isbn/9788498008010-M.jpg" }
-      ],
-      "Amanecer Rojo|El problema de los tres cuerpos": [
-        { title: "Dune", cover: "https://covers.openlibrary.org/b/isbn/9780441172719-M.jpg" },
-        { title: "Hyperion", cover: "https://covers.openlibrary.org/b/isbn/9780553283686-M.jpg" },
-        { title: "Snow Crash", cover: "https://covers.openlibrary.org/b/isbn/9780553380958-M.jpg" }
-      ]
-    };
+    async function loadCover(index) {
+      const input = document.getElementById(`input${index}`);
+      const query = input.value.trim();
 
-    function getRecommendations() {
-      const b1 = document.getElementById('book1').value.trim();
-      const b2 = document.getElementById('book2').value.trim();
-      const combo = `${b1}|${b2}`;
-      const reverseCombo = `${b2}|${b1}`;
+      const img = document.getElementById(`img${index}`);
+      const question = document.getElementById(`q${index}`);
 
-      const resultDiv = document.getElementById('results');
-      resultDiv.innerHTML = '';
+      if (query.length === 0) {
+        img.style.display = "none";
+        question.style.display = "block";
+        return;
+      }
 
-      const recs = data[combo] || data[reverseCombo];
+      const res = await fetch(`https://openlibrary.org/search.json?title=${encodeURIComponent(query)}`);
+      const data = await res.json();
 
-      if (recs) {
-        recs.forEach(book => {
-          const bookEl = document.createElement('div');
-          bookEl.className = 'book';
+      const coverId = data.docs[0]?.cover_i;
 
-          const img = document.createElement('img');
-          img.src = book.cover;
-          img.alt = book.title;
-
-          const title = document.createElement('span');
-          title.textContent = book.title;
-
-          bookEl.appendChild(img);
-          bookEl.appendChild(title);
-          resultDiv.appendChild(bookEl);
-        });
+      if (coverId) {
+        img.src = `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`;
+        img.style.display = "block";
+        question.style.display = "none";
       } else {
-        resultDiv.innerHTML = '<p>No tenemos recomendaciones para esa combinación todavía.</p>';
+        img.style.display = "none";
+        question.style.display = "block";
       }
     }
-
-    function updateCover(coverNumber) {
-      const bookInput = document.getElementById(`book${coverNumber}`);
-      const question = document.getElementById(`question${coverNumber}`);
-      const cover = document.getElementById(`cover${coverNumber}`);
-      const image = document.getElementById(`image${coverNumber}`);
-
-      if (bookInput.value.trim()) {
-        question.style.display = 'none';
-        image.style.display = 'block';
-        
-        // Realizamos la búsqueda de la portada en OpenLibrary usando el título
-        const url = `https://openlibrary.org/search.json?title=${bookInput.value.trim()}`;
-        fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            const coverId = data.docs[0]?.cover_i;
+  </script>
+</body>
+</html>
