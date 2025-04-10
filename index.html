@@ -217,12 +217,10 @@
       if (bookInput.value.trim()) {
         question.style.display = 'none';
         image.style.display = 'block';
-        image.src = `https://covers.openlibrary.org/b/isbn/${bookInput.value.trim()}-M.jpg`;
-      } else {
-        question.style.display = 'block';
-        image.style.display = 'none';
-      }
-    }
-  </script>
-</body>
-</html>
+        
+        // Realizamos la búsqueda de la portada en OpenLibrary usando el título
+        const url = `https://openlibrary.org/search.json?title=${bookInput.value.trim()}`;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const coverId = data.docs[0]?.cover_i;
