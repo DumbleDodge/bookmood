@@ -141,9 +141,11 @@
     <div class="covers">
       <div class="cover" id="cover1">
         <span id="question1">?</span>
+        <img id="image1" style="display: none;" />
       </div>
       <div class="cover" id="cover2">
         <span id="question2">?</span>
+        <img id="image2" style="display: none;" />
       </div>
     </div>
 
@@ -210,14 +212,15 @@
       const bookInput = document.getElementById(`book${coverNumber}`);
       const question = document.getElementById(`question${coverNumber}`);
       const cover = document.getElementById(`cover${coverNumber}`);
+      const image = document.getElementById(`image${coverNumber}`);
 
       if (bookInput.value.trim()) {
         question.style.display = 'none';
-        cover.style.backgroundImage = `url('https://covers.openlibrary.org/b/isbn/${bookInput.value.trim()}-M.jpg')`;
-        cover.style.backgroundSize = 'cover';
+        image.style.display = 'block';
+        image.src = `https://covers.openlibrary.org/b/isbn/${bookInput.value.trim()}-M.jpg`;
       } else {
         question.style.display = 'block';
-        cover.style.backgroundImage = 'none';
+        image.style.display = 'none';
       }
     }
   </script>
