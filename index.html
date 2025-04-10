@@ -22,7 +22,7 @@
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       width: 90%;
-      max-width: 600px;
+      max-width: 800px;
       text-align: center;
     }
     h1 {
@@ -34,13 +34,35 @@
       color: #555;
       margin-bottom: 30px;
     }
+    .book-selection {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .book-selection img {
+      width: 150px;
+      height: 225px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .book-selection .question {
+      font-size: 30px;
+      color: #333;
+    }
+    .input-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
     input {
-      width: 100%;
-      padding: 12px 16px;
-      margin: 10px 0;
-      font-size: 16px;
+      width: 45%;
+      padding: 8px 10px;
+      font-size: 14px;
       border: 1px solid #ccc;
-      border-radius: 10px;
+      border-radius: 8px;
       transition: 0.3s ease;
     }
     input:focus {
@@ -82,32 +104,31 @@
       object-fit: cover;
       border-radius: 6px;
     }
-    .pair-display {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    .pair-display img {
-      width: 60px;
-      height: 90px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .plus-sign {
-      font-size: 28px;
-      color: #333;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>¿Te gustaron dos libros?</h1>
     <p>Decinos cuáles y te recomendamos qué leer después.</p>
-    <input type="text" id="book1" placeholder="Primer libro">
-    <input type="text" id="book2" placeholder="Segundo libro">
+
+    <div class="book-selection">
+      <div>
+        <img src="https://via.placeholder.com/150x225?text=?" alt="Portada Libro 1" id="cover1" onclick="selectBook(1)">
+        <p class="question">?</p>
+      </div>
+      <div>
+        <img src="https://via.placeholder.com/150x225?text=?" alt="Portada Libro 2" id="cover2" onclick="selectBook(2)">
+        <p class="question">?</p>
+      </div>
+    </div>
+
+    <div class="input-container">
+      <input type="text" id="book1" placeholder="Buscar libro" oninput="updateCover(1)">
+      <input type="text" id="book2" placeholder="Buscar libro" oninput="updateCover(2)">
+    </div>
+
     <button onclick="getRecommendations()">Buscar recomendaciones</button>
+    
     <div class="results" id="results"></div>
   </div>
 
@@ -139,37 +160,34 @@
       "El problema de los tres cuerpos": "https://covers.openlibrary.org/b/isbn/9788413142145-M.jpg"
     };
 
+    let selectedBook1 = '';
+    let selectedBook2 = '';
+
+    function selectBook(bookNumber) {
+      const bookInput = document.getElementById(`book${bookNumber}`);
+      bookInput.focus();
+    }
+
+    function updateCover(bookNumber) {
+      const bookInput = document.getElementById(`book${bookNumber}`);
+      const coverImage = document.getElementById(`cover${bookNumber}`);
+      const query = bookInput.value.trim();
+
+      if (coverMap[query]) {
+        coverImage.src = coverMap[query];
+        if (bookNumber === 1) selectedBook1 = query;
+        if (bookNumber === 2) selectedBook2 = query;
+      } else {
+        coverImage.src = "https://via.placeholder.com/150x225?text=?";
+      }
+    }
+
     function getRecommendations() {
-      const b1 = document.getElementById('book1').value.trim();
-      const b2 = document.getElementById('book2').value.trim();
-      const combo = `${b1}|${b2}`;
-      const reverseCombo = `${b2}|${b1}`;
+      const combo = `${selectedBook1}|${selectedBook2}`;
+      const reverseCombo = `${selectedBook2}|${selectedBook1}`;
 
       const resultDiv = document.getElementById('results');
       resultDiv.innerHTML = '';
-
-      if (coverMap[b1] && coverMap[b2]) {
-        const pairDiv = document.createElement('div');
-        pairDiv.className = 'pair-display';
-
-        const img1 = document.createElement('img');
-        img1.src = coverMap[b1];
-        img1.alt = b1;
-
-        const plus = document.createElement('div');
-        plus.className = 'plus-sign';
-        plus.textContent = '+';
-
-        const img2 = document.createElement('img');
-        img2.src = coverMap[b2];
-        img2.alt = b2;
-
-        pairDiv.appendChild(img1);
-        pairDiv.appendChild(plus);
-        pairDiv.appendChild(img2);
-
-        resultDiv.appendChild(pairDiv);
-      }
 
       const recs = data[combo] || data[reverseCombo];
 
@@ -190,7 +208,7 @@
           resultDiv.appendChild(bookEl);
         });
       } else {
-        resultDiv.innerHTML += '<p>No tenemos recomendaciones para esa combinación todavía.</p>';
+        resultDiv.innerHTML = '<p>No tenemos recomendaciones para esa combinación todavía.</p>';
       }
     }
   </script>
