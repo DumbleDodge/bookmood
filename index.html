@@ -36,11 +36,12 @@
     }
     .book-selection {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-evenly; /* Centra las portadas */
       align-items: center;
       margin-bottom: 30px;
+      gap: 50px; /* Aumenta el espacio entre las portadas */
     }
-    .book-selection .book-container {
+    .book-container {
       width: 150px;
       height: 225px;
       background-color: #d3d3d3;
@@ -51,12 +52,12 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .book-selection .question {
+    .question {
       font-size: 30px;
       color: #333;
       position: absolute;
     }
-    .book-selection .cover {
+    .cover {
       width: 100%;
       height: 100%;
       object-fit: cover;
