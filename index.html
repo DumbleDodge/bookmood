@@ -93,6 +93,38 @@
       width: 200px;
       height: auto;
     }
+    /* Estilo para las portadas de los libros */
+    .covers {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .cover {
+      width: 100px;
+      height: 150px;
+      background-color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .cover span {
+      position: absolute;
+      color: #555;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .cover span:hover {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -100,11 +132,25 @@
   <div class="header-logo">
     <img src="A_logo_for_'BookMood'_is_set_against_a_softly_text.png" alt="BookMood Logo">
   </div>
+
   <div class="container">
     <h1>¿Te gustaron dos libros?</h1>
     <p>Decinos cuáles y te recomendamos qué leer después.</p>
-    <input type="text" id="book1" placeholder="Primer libro">
-    <input type="text" id="book2" placeholder="Segundo libro">
+
+    <!-- Portadas de libros con una interrogación al principio -->
+    <div class="covers">
+      <div class="cover" id="cover1">
+        <span id="question1">?</span>
+      </div>
+      <div class="cover" id="cover2">
+        <span id="question2">?</span>
+      </div>
+    </div>
+
+    <!-- Campos de texto para introducir los títulos de los libros -->
+    <input type="text" id="book1" placeholder="Primer libro" oninput="updateCover(1)">
+    <input type="text" id="book2" placeholder="Segundo libro" oninput="updateCover(2)">
+
     <button onclick="getRecommendations()">Buscar recomendaciones</button>
     <div class="results" id="results"></div>
   </div>
@@ -157,6 +203,21 @@
         });
       } else {
         resultDiv.innerHTML = '<p>No tenemos recomendaciones para esa combinación todavía.</p>';
+      }
+    }
+
+    function updateCover(coverNumber) {
+      const bookInput = document.getElementById(`book${coverNumber}`);
+      const question = document.getElementById(`question${coverNumber}`);
+      const cover = document.getElementById(`cover${coverNumber}`);
+
+      if (bookInput.value.trim()) {
+        question.style.display = 'none';
+        cover.style.backgroundImage = `url('https://covers.openlibrary.org/b/isbn/${bookInput.value.trim()}-M.jpg')`;
+        cover.style.backgroundSize = 'cover';
+      } else {
+        question.style.display = 'block';
+        cover.style.backgroundImage = 'none';
       }
     }
   </script>
