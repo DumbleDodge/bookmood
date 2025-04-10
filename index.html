@@ -4,45 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bookmood - Recomendaciones</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
       margin: 0;
-      padding: 20px;
-      text-align: center;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
     .container {
-      max-width: 600px;
-      margin: auto;
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      color: #2c3e50;
+    }
+    p {
+      color: #555;
+      margin-bottom: 30px;
     }
     input {
-      width: 90%;
-      padding: 10px;
+      width: 100%;
+      padding: 12px 16px;
       margin: 10px 0;
       font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      transition: 0.3s ease;
+    }
+    input:focus {
+      border-color: #00acc1;
+      outline: none;
     }
     button {
-      padding: 10px 20px;
+      margin-top: 10px;
+      padding: 12px 20px;
       font-size: 16px;
-      background-color: #4CAF50;
+      background-color: #00acc1;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #008b9a;
     }
     .results {
-      margin-top: 20px;
+      margin-top: 30px;
     }
     .book {
-      background: #e6e6e6;
-      margin: 10px;
-      padding: 10px;
-      border-radius: 8px;
+      background: #f0f9fa;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      font-weight: 500;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .book img {
+      width: 50px;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 6px;
     }
   </style>
 </head>
@@ -59,19 +97,19 @@
   <script>
     const data = {
       "Proyecto Hail Mary|La vieja guardia": [
-        "Amanecer Rojo",
-        "El marciano",
-        "Cánticos de la lejana Tierra"
+        { title: "Amanecer Rojo", cover: "https://covers.openlibrary.org/b/isbn/9788499187905-M.jpg" },
+        { title: "El marciano", cover: "https://covers.openlibrary.org/b/isbn/9780804139021-M.jpg" },
+        { title: "Cánticos de la lejana Tierra", cover: "https://covers.openlibrary.org/b/isbn/9788497599243-M.jpg" }
       ],
       "Mundo Anillo|Cita con Rama": [
-        "Tau Cero",
-        "El libro del día del juicio final",
-        "Las fuentes del paraíso"
+        { title: "Tau Cero", cover: "https://covers.openlibrary.org/b/isbn/9788498006290-M.jpg" },
+        { title: "El libro del día del juicio final", cover: "https://covers.openlibrary.org/b/isbn/9788498007884-M.jpg" },
+        { title: "Las fuentes del paraíso", cover: "https://covers.openlibrary.org/b/isbn/9788498008010-M.jpg" }
       ],
       "Amanecer Rojo|El problema de los tres cuerpos": [
-        "Dune",
-        "Hyperion",
-        "Snow Crash"
+        { title: "Dune", cover: "https://covers.openlibrary.org/b/isbn/9780441172719-M.jpg" },
+        { title: "Hyperion", cover: "https://covers.openlibrary.org/b/isbn/9780553283686-M.jpg" },
+        { title: "Snow Crash", cover: "https://covers.openlibrary.org/b/isbn/9780553380958-M.jpg" }
       ]
     };
 
@@ -84,12 +122,22 @@
       const resultDiv = document.getElementById('results');
       resultDiv.innerHTML = '';
 
-      if (data[combo] || data[reverseCombo]) {
-        const recs = data[combo] || data[reverseCombo];
-        recs.forEach(title => {
+      const recs = data[combo] || data[reverseCombo];
+
+      if (recs) {
+        recs.forEach(book => {
           const bookEl = document.createElement('div');
           bookEl.className = 'book';
-          bookEl.textContent = title;
+
+          const img = document.createElement('img');
+          img.src = book.cover;
+          img.alt = book.title;
+
+          const title = document.createElement('span');
+          title.textContent = book.title;
+
+          bookEl.appendChild(img);
+          bookEl.appendChild(title);
           resultDiv.appendChild(bookEl);
         });
       } else {
